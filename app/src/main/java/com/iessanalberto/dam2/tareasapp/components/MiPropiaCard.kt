@@ -31,7 +31,10 @@ import com.iessanalberto.dam2.tareasapp.models.Tarea
 
 
 @Composable
-fun MiPropiaCard(tarea: Tarea, modifier: Modifier = Modifier){
+fun MiPropiaCard(tarea: Tarea,
+                 modifier: Modifier = Modifier,
+                 onClick: () -> Unit
+){
 
         ElevatedCard(
             modifier = modifier
@@ -41,7 +44,8 @@ fun MiPropiaCard(tarea: Tarea, modifier: Modifier = Modifier){
             colors = CardDefaults.elevatedCardColors(
                 containerColor = MaterialTheme.colorScheme.surfaceVariant
             ),
-            elevation = CardDefaults.elevatedCardElevation(defaultElevation = 6.dp)
+            elevation = CardDefaults.elevatedCardElevation(defaultElevation = 6.dp),
+            onClick = onClick
         ) {
             Column(
                 modifier = Modifier.padding(20.dp),

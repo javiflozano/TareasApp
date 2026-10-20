@@ -38,18 +38,21 @@ fun TareasScreen(navController: NavController){
             }
         }
     ) {
-        paddingValues -> TareasBodyContent(modifier = Modifier.padding(paddingValues = paddingValues))
+        paddingValues -> TareasBodyContent(modifier = Modifier.padding(paddingValues = paddingValues),
+            navController = navController)
     }
 }
 
 @Composable
-fun TareasBodyContent(modifier: Modifier){
+fun TareasBodyContent(modifier: Modifier, navController: NavController){
     LazyColumn(modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
         ) {
         items(listaTareas){ tarea ->
-            MiPropiaCard(tarea = tarea)
+            MiPropiaCard(tarea = tarea,
+                onClick = {navController.navigate(route = AppScreens.EditDeleteTaskScreen.route + "/${tarea.id}")}
+                )
         }
     }
 }
