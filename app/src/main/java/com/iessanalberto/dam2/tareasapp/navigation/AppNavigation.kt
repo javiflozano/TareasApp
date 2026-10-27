@@ -21,7 +21,7 @@ fun AppNavigation(){
         composable (route = AppScreens.EditDeleteTaskScreen.route + "/{id}",
             arguments = listOf(navArgument(name = "id") {type = NavType.IntType})
             ) { backStackEntry ->
-            val id = backStackEntry.arguments?.getInt("id")?: -1
+            val id = backStackEntry.arguments?.getInt("id") ?: -1
 
             EditDeleteTaskScreen(navController = navController, id = id)
         }
