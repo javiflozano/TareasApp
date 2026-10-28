@@ -1,6 +1,7 @@
 package com.iessanalberto.dam2.tareasapp.screens
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -45,14 +46,23 @@ fun TareasScreen(navController: NavController){
 
 @Composable
 fun TareasBodyContent(modifier: Modifier, navController: NavController){
-    LazyColumn(modifier = modifier.fillMaxSize(),
+    Column(modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally){
+        // TODO elementos de filtrado
+
+
+        LazyColumn(modifier = modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-        items(listaTareas){ tarea ->
-            MiPropiaCard(tarea = tarea,
-                onClick = {navController.navigate(route = AppScreens.EditDeleteTaskScreen.route + "/${tarea.id}")}
+            items(listaTareas){ tarea ->
+                MiPropiaCard(tarea = tarea,
+                    onClick = {navController.navigate(route = AppScreens.EditDeleteTaskScreen.route + "/${tarea.id}")}
                 )
+            }
         }
     }
+
+
 }

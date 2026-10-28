@@ -4,7 +4,7 @@ data class Tarea(
     var nombre: String,
     var responsable: String,
     var descripcion: String,
-    var estado: String = "To do"
+    var estado: Estado = Estado.PENDIENTE
 ) {
     companion object {
         var contador = 0
@@ -13,4 +13,10 @@ data class Tarea(
         }
     }
     val id: Int = siguienteId()
+}
+
+enum class Estado(val etiqueta: String) {
+    PENDIENTE (etiqueta = "Pendiente"),
+    EN_PROGRESO (etiqueta = "En progreso"),
+    COMPLETADO (etiqueta = "Completada")
 }

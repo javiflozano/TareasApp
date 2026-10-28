@@ -66,7 +66,7 @@ fun MiPropiaCard(tarea: Tarea,
                         modifier = Modifier.weight(1f)
                     )
                     Spacer(Modifier.width(12.dp))
-                    EstadoChip(estado = tarea.estado)
+                    EstadoChip(estado = tarea.estado.etiqueta)
                 }
 
                 // Descripción

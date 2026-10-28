@@ -125,11 +125,14 @@ fun EditDeleteBodyContent(
             onValueChange = {descripcion = it},
             label = {Text(text = "Descripción")}
         )
+        // TODO CAMBIAR ESTO POR OTRO RADIOBUTTON
+        /*
         OutlinedTextField(
             value = estado,
             onValueChange = {estado = it},
             label = {Text(text = "Estado")}
         )
+         */
         Button(onClick = {
             tarea.nombre = nombre
             tarea.responsable = responsable

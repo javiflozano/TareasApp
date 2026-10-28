@@ -1,5 +1,6 @@
 package com.iessanalberto.dam2.tareasapp.data
 
+import com.iessanalberto.dam2.tareasapp.models.Estado
 import com.iessanalberto.dam2.tareasapp.models.Tarea
 
 val listaTareas: MutableList<Tarea> = mutableListOf(
@@ -17,7 +18,7 @@ val listaTareas: MutableList<Tarea> = mutableListOf(
         nombre = "Comprar fruta",
         responsable = "Rubén",
         descripcion = "Comprar aguacates, limones y sandías",
-        estado = "En proceso"
+        estado = Estado.EN_PROGRESO
     ),
     Tarea(
         nombre = "Estudiar",
