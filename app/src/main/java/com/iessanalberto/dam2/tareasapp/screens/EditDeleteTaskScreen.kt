@@ -4,8 +4,11 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.AlertDialog
@@ -17,6 +20,7 @@ import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -28,10 +32,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.iessanalberto.dam2.tareasapp.data.buscarTarea
 import com.iessanalberto.dam2.tareasapp.data.listaTareas
+import com.iessanalberto.dam2.tareasapp.models.Estado
 import com.iessanalberto.dam2.tareasapp.models.Tarea
 
 
@@ -105,6 +111,7 @@ fun EditDeleteBodyContent(
     var responsable by remember { mutableStateOf(tarea.responsable) }
     var descripcion by remember { mutableStateOf(tarea.descripcion) }
     var estado by remember { mutableStateOf(tarea.estado) }
+    var estadoSeleccionado by remember { mutableStateOf(tarea.estado) }
 
     Column(modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(20.dp),
@@ -133,17 +140,34 @@ fun EditDeleteBodyContent(
             label = {Text(text = "Estado")}
         )
          */
+        Estado.entries.forEach { estado ->
+            Row(
+                modifier = Modifier.fillMaxWidth()
+                    .selectable(
+                        selected = (estado == estadoSeleccionado),
+                        onClick = {estadoSeleccionado = estado},
+                        role = Role.RadioButton
+                    )
+                    .padding(vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                RadioButton(
+                    selected = (estado == estadoSeleccionado),
+                    onClick = null
+                )
+                Text(text = estado.etiqueta, modifier = Modifier.padding(start = 8.dp))
+            }
+        }
         Button(onClick = {
             tarea.nombre = nombre
             tarea.responsable = responsable
             tarea.descripcion = descripcion
-            tarea.estado = estado
+            tarea.estado = estadoSeleccionado
             Toast.makeText(context, "Tarea actualizada", Toast.LENGTH_SHORT).show()
             navController.popBackStack()
         }){
             Text(text = "Guardar")
         }
-
     }
 
 }

@@ -2,7 +2,10 @@ package com.iessanalberto.dam2.tareasapp.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,6 +13,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -17,9 +21,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -27,6 +37,7 @@ import androidx.navigation.NavController
 import com.iessanalberto.dam2.tareasapp.R
 import com.iessanalberto.dam2.tareasapp.components.MiPropiaCard
 import com.iessanalberto.dam2.tareasapp.data.listaTareas
+import com.iessanalberto.dam2.tareasapp.models.Estado
 import com.iessanalberto.dam2.tareasapp.navigation.AppScreens
 
 
@@ -46,22 +57,59 @@ fun TareasScreen(navController: NavController){
 
 @Composable
 fun TareasBodyContent(modifier: Modifier, navController: NavController){
+    var isPendienteChecked by remember { mutableStateOf(true) }
+    var isEnProgresoChecked by remember { mutableStateOf(true) }
+    var isCompletadoChecked by remember { mutableStateOf(true) }
+
+    var listaFiltrada = listaTareas.filter {
+        it.estado == Estado.PENDIENTE && isPendienteChecked ||
+                it.estado == Estado.EN_PROGRESO && isEnProgresoChecked ||
+                it.estado == Estado.COMPLETADO && isCompletadoChecked
+    }
     Column(modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally){
-        // TODO elementos de filtrado
-
-
-        LazyColumn(modifier = modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            items(listaTareas){ tarea ->
+        // Elementos de filtrado
+        Row(verticalAlignment = Alignment.CenterVertically){
+            Checkbox(
+                checked = isPendienteChecked,
+                onCheckedChange = {isPendienteChecked = it}
+            )
+            Text (text = Estado.PENDIENTE.etiqueta)
+        }
+        Row(verticalAlignment = Alignment.CenterVertically){
+            Checkbox(
+                checked = isEnProgresoChecked,
+                onCheckedChange = {isEnProgresoChecked = it}
+            )
+            Text (text = Estado.EN_PROGRESO.etiqueta)
+        }
+        Row(verticalAlignment = Alignment.CenterVertically){
+            Checkbox(
+                checked = isCompletadoChecked,
+                onCheckedChange = {isCompletadoChecked = it}
+            )
+            Text (text = Estado.COMPLETADO.etiqueta)
+        }
+        // Mostramos resultado del filtrado (si hay)
+        if (listaFiltrada.isEmpty()){
+            Spacer(modifier = Modifier.height(50.dp))
+            Text(text = "No hay nada que mostrar",
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp
+            )
+        } else {
+            LazyColumn(modifier = modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) { items(listaFiltrada){ tarea ->
                 MiPropiaCard(tarea = tarea,
                     onClick = {navController.navigate(route = AppScreens.EditDeleteTaskScreen.route + "/${tarea.id}")}
                 )
             }
+            }
         }
+
     }
 
 
